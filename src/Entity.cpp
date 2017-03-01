@@ -1,6 +1,9 @@
 #include "Entity.h"
 
 Entity::Entity() {
+    setID(0);
+    setName("");
+    setLocation(Vector3D(0.0f, 0.0f, 0.0f));
 }
 
 Entity::~Entity() {

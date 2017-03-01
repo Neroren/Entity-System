@@ -16,6 +16,7 @@
 
 World::World() {
     setWorldID(0);
+    setWorldName("world");
     entityCounter = 0;
 }
 
@@ -66,14 +67,23 @@ LivingEntity* World::createEntity(EntityType entityType) {
 }
 
 void World::insertEntity(LivingEntity* ent) {
+    bool newID = false;
     LivingEntity* entity = ent;
+
+    if (!entity->getID()) {
+        entity->setID(entityCounter);
+        newID = true;
+    }
+
     vec.push_back(entity);
 
     int entitySlot = vec.size() - 1;
     Vector3D loc = vec[entitySlot]->getLocation();
 
     DEBUG_PRINT("Inserted entity %s (%.2f, %.2f, %.2f), current amount: %d\n", vec[entitySlot]->getName().c_str(), loc.x, loc.y, loc.z, vec.size());
-    entityCounter++; // TODO set accessors and mutators for entityCounter so that added entities ID's dont collide with existing ones
+    if(newID)
+        DEBUG_PRINT("Inserted entity had no ID, so the ID %d has been assigned to it\n", entity->getID());
+    entityCounter++; // TODO set accessors and mutators for entityCounter so that added entities ID's don't collide with existing ones
 
     return;
 }

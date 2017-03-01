@@ -5,7 +5,7 @@
 #include "LivingEntity.h"
 #include "World.h"
 
-#define MEM_LEAK // Comment out to prevent memory leak testing
+//#define MEM_LEAK // Comment out to prevent memory leak testing
 
 int main () {
     World* world = new World();
@@ -47,7 +47,7 @@ int main () {
     LivingEntity* test = new LivingEntity();
 
     test->setName("Lara Croft");
-    test->setID(0);
+    //test->setID(0);
     test->setLocation(Vector3D(1.25f, 95.54f, 5.35468f));
     test->setHealth(250);
     test->setMaxHealth(250);
