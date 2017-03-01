@@ -34,7 +34,7 @@ int main () {
         if(counter == 1000000) {
             printf("FULL MEMORY HERE\n");
             system("pause");
-            world->printAllEntities();
+            //world->printAllEntities();
             world->removeAllEntities();
             delete world;
             printf("EMPTY MEMORY HERE\n");
