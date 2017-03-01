@@ -9,6 +9,7 @@
 
 int main () {
     World* world = new World();
+    world->setWorldName("Earth");
     LivingEntity* worldent = (LivingEntity*) world->createEntity(LIVINGENTITY);
     worldent->setName("this is a test");
     world->createEntity();

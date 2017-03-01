@@ -67,9 +67,9 @@ Entity* World::createEntity(EntityType entityType) {
     return entity;
 }
 
-void World::insertEntity(LivingEntity* ent) {
+void World::insertEntity(Entity* ent) {
     bool newID = false;
-    LivingEntity* entity = ent;
+    Entity* entity = ent;
 
     if (!entity->getID()) {
         entity->setID(entityCounter);

@@ -20,9 +20,9 @@ class World {
 
     /**
      *  @brief Inserts an existing Entity into the world
-     *  @param ent LivingEntity* to insert.
+     *  @param ent Entity* to insert.
      */
-    void insertEntity(LivingEntity* ent);
+    void insertEntity(Entity* ent);
 
     /**
      *  @brief Removes an Entity from the world using their slot ID in the world.
