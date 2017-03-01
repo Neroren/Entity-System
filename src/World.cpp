@@ -26,7 +26,7 @@ World::~World() {
 
 std::string IntToString(int number) {
     std::ostringstream oss;
-    oss<< number;
+    oss << number;
     return oss.str();
 }
 
@@ -56,7 +56,7 @@ Entity* World::createEntity(EntityType entityType) {
     vec.push_back(entity);
 
     int entitySlot = vec.size() - 1;
-    vec[entitySlot]->setName("entity_" + IntToString(entityCounter));
+    //vec[entitySlot]->setName("entity_" + IntToString(entityCounter));
     vec[entitySlot]->setID(entityCounter);
 
     Vector3D loc = vec[entitySlot]->getLocation();

@@ -5,7 +5,7 @@
 #include "LivingEntity.h"
 #include "World.h"
 
-//#define MEM_LEAK // Comment out to prevent memory leak testing
+#define MEM_LEAK // Comment out to prevent memory leak testing
 
 int main () {
     World* world = new World();
@@ -27,18 +27,19 @@ int main () {
     system("pause");
     world = new World();
     while(true) {
-        LivingEntity* worldent = world->createEntity(LIVINGENTITY);
-        worldent->setName("newname");
+        LivingEntity* worldent = (LivingEntity*) world->createEntity(LIVINGENTITY);
+        //worldent->setName("newname");
 
         counter++;
         if(counter == 1000000) {
-            //printf("FULL MEMORY HERE\n");
-            //system("pause");
-            //world->removeAllEntities();
+            printf("FULL MEMORY HERE\n");
+            system("pause");
+            world->printAllEntities();
+            world->removeAllEntities();
             delete world;
-            //printf("EMPTY MEMORY HERE\n");
+            printf("EMPTY MEMORY HERE\n");
             world = new World();
-            //system("pause");
+            system("pause");
             counter = 0;
         }
     }

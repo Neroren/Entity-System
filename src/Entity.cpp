@@ -3,7 +3,7 @@
 Entity::Entity() {
     setType(ENTITY);
     setID(0);
-    setName("");
+    setName("Entity");
     setLocation(Vector3D(0.0f, 0.0f, 0.0f));
 }
 

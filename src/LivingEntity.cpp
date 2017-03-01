@@ -5,6 +5,7 @@
 
 LivingEntity::LivingEntity() {
     setType(LIVINGENTITY);
+    setName("LivingEntity");
     setHealth(100);
     setMaxHealth(100);
     setArmor(0);
