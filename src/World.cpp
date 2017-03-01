@@ -46,24 +46,25 @@ std::string World::getWorldName() {
     return this->worldName;
 }
 
-LivingEntity* World::createEntity(EntityType entityType) {
-    if (entityType == LIVINGENTITY) {
-        LivingEntity* entity = new LivingEntity();
-        vec.push_back(entity);
+Entity* World::createEntity(EntityType entityType) {
+    Entity* entity;
+    if (entityType == ENTITY)
+        entity = new Entity();
+    if (entityType == LIVINGENTITY)
+        entity = new LivingEntity();
 
-        int entitySlot = vec.size() - 1;
-        vec[entitySlot]->setName("entity_" + IntToString(entityCounter));
-        vec[entitySlot]->setID(entityCounter);
-        vec[entitySlot]->setLocation(Vector3D(0.0f, 0.0f, 0.0f));
+    vec.push_back(entity);
 
-        Vector3D loc = vec[entitySlot]->getLocation();
+    int entitySlot = vec.size() - 1;
+    vec[entitySlot]->setName("entity_" + IntToString(entityCounter));
+    vec[entitySlot]->setID(entityCounter);
 
-        DEBUG_PRINT("Created entity %s (%.2f, %.2f, %.2f), current amount: %d\n", vec[entitySlot]->getName().c_str(), loc.x, loc.y, loc.z, vec.size());
-        entityCounter++;
+    Vector3D loc = vec[entitySlot]->getLocation();
 
-        return entity;
-    }
-    return 0;
+    DEBUG_PRINT("Created entity %s (%.2f, %.2f, %.2f), current amount: %d\n", vec[entitySlot]->getName().c_str(), loc.x, loc.y, loc.z, vec.size());
+    entityCounter++;
+
+    return entity;
 }
 
 void World::insertEntity(LivingEntity* ent) {
@@ -114,7 +115,7 @@ void World::removeEntityByID(unsigned int id) {
 void World::printAllEntities() {
     printf("[W-ID]\tID\tNAME\t\tTYPE\n");
     for(size_t i = 0; i < vec.size(); i++) {
-        printf("[%d]\t%d\t%s\t\t\n", i, vec[i]->getID(), vec[i]->getName().c_str());
+        printf("[%d]\t%d\t%s\t%s\n", i, vec[i]->getID(), vec[i]->getName().c_str(), (vec[i]->getType() == ENTITY) ? "ENTITY" : "LIVINGENTITY");
     }
 }
 

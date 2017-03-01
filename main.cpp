@@ -9,11 +9,11 @@
 
 int main () {
     World* world = new World();
-    LivingEntity* worldent = world->createEntity(LIVINGENTITY);
+    LivingEntity* worldent = (LivingEntity*) world->createEntity(LIVINGENTITY);
     worldent->setName("this is a test");
+    world->createEntity(ENTITY);
     world->createEntity(LIVINGENTITY);
-    world->createEntity(LIVINGENTITY);
-    world->createEntity(LIVINGENTITY);
+    world->createEntity(ENTITY);
     world->createEntity(LIVINGENTITY);
     world->removeEntity(1000);
     //world->removeEntityByID(30); // Will give a not found error

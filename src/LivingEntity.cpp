@@ -4,6 +4,7 @@
 #define MAX_ARMOR 1000
 
 LivingEntity::LivingEntity() {
+    setType(LIVINGENTITY);
     setHealth(100);
     setMaxHealth(100);
     setArmor(0);
@@ -82,5 +83,5 @@ void LivingEntity::kill() {
 }
 
 bool LivingEntity::isDead() {
-    return (getHealth() == 0) ? true : false;
+    return (getHealth() == 0);
 }

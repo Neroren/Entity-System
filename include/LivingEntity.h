@@ -1,4 +1,5 @@
 #include "Entity.h"
+#include "Enumerators.h"
 
 #ifndef LIVINGENTITY_H
 #define LIVINGENTITY_H
@@ -30,6 +31,13 @@ class LivingEntity : public Entity {
     void setMaxHealth(int health);
     int getMaxHealth();
 
+    /**
+     *  @brief Sets the entity's armor.
+     *  @param armor Armor amount.
+     *
+     *  Any value between 0 to MAX_ARMOR, values outside this range are
+     *  clamped.
+     */
     void setArmor(int armor);
     int getArmor();
 

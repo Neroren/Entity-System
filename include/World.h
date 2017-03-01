@@ -1,20 +1,16 @@
 #include "LivingEntity.h"
+#include "Enumerators.h"
 #include <vector>
 
 #ifndef WORLD_H
 #define WORLD_H
-
-enum EntityType {
-    ENTITY,
-    LIVINGENTITY
-};
 
 class World {
   public:
     World();
     virtual ~World();
 
-    LivingEntity* createEntity(EntityType entityType);
+    Entity* createEntity(EntityType entityType);
     void insertEntity(LivingEntity* ent);
     void removeEntity(unsigned int index);
     void removeEntityByID(unsigned int id);
@@ -33,7 +29,7 @@ class World {
   private:
     int worldID, entityCounter;
     std::string worldName;
-    std::vector<LivingEntity*> vec;
+    std::vector<Entity*> vec;
 };
 
 #endif // WORLD_H
