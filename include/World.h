@@ -13,10 +13,10 @@ class World {
     /**
      *  @brief Creates an Entity in the world of type entityType.
      *
-     *  @param entityType EntityType to create.
+     *  @param entityType EntityType to create. Defaults to ENTITY if not specified.
      *  @return Entity* The created entity, ready to be manipulated.
      */
-    Entity* createEntity(EntityType entityType);
+    Entity* createEntity(EntityType entityType = ENTITY);
 
     /**
      *  @brief Inserts an existing Entity into the world
@@ -33,21 +33,18 @@ class World {
     /**
      *  @brief Removes an Entity from the world using their Entity ID in the world.
      *  @param id Entity ID to search and remove.
+     *
+     *  Refrain from using this as it is more resource intensive than removing by index.
      */
     void removeEntityByID(unsigned int id);
 
     /**
-     *  @brief Sets the entity's health.
-     *  @param health Health amount.
-     *
-     *  Any value between 0 to MAX_HEALTH, values outside this range are
-     *  clamped.
+     *  @brief Prints all entities in the world to console. Helpful for debugging.
      */
     void printAllEntities();
 
     /**
      *  @brief Removes all Entities in the world.
-     *  @param health Health amount.
      *
      *  This deletes all entities, resets the vector containing all of their pointers,
      *  and resets the entity counter to 0. Essentially emptying the world.

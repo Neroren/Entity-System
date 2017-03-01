@@ -11,7 +11,7 @@ int main () {
     World* world = new World();
     LivingEntity* worldent = (LivingEntity*) world->createEntity(LIVINGENTITY);
     worldent->setName("this is a test");
-    world->createEntity(ENTITY);
+    world->createEntity();
     world->createEntity(LIVINGENTITY);
     world->createEntity(ENTITY);
     world->createEntity(LIVINGENTITY);
