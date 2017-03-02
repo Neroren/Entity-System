@@ -1,9 +1,10 @@
-#include "LivingEntity.h"
-#include "Enumerators.h"
-#include <vector>
-
 #ifndef WORLD_H
 #define WORLD_H
+
+#include "LivingEntity.h"
+#include "Monster.h"
+#include "Enumerators.h"
+#include <vector>
 
 class World {
   public:
@@ -21,6 +22,9 @@ class World {
     /**
      *  @brief Inserts an existing Entity into the world
      *  @param ent Entity* to insert.
+     *
+     *  This does not move the entity, it only copies it. Make sure to dispose of the
+     *  original entity once it has been copied.
      */
     void insertEntity(Entity* ent);
 
@@ -35,6 +39,8 @@ class World {
      *  @param id Entity ID to search and remove.
      *
      *  Refrain from using this as it is more resource intensive than removing by index.
+     *  Note that this is the ONLY way to remove an entity by their identifier and
+     *  removing an entity by index will not guarantee which entity is removed.
      */
     void removeEntityByID(unsigned int id);
 

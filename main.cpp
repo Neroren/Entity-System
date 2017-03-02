@@ -5,7 +5,7 @@
 #include "LivingEntity.h"
 #include "World.h"
 
-#define MEM_LEAK // Comment out to prevent memory leak testing
+//#define MEM_LEAK // Comment out to prevent memory leak testing
 
 int main () {
     World* world = new World();
@@ -13,7 +13,8 @@ int main () {
     LivingEntity* worldent = (LivingEntity*) world->createEntity(LIVINGENTITY);
     worldent->setName("this is a test");
     world->createEntity();
-    world->createEntity(LIVINGENTITY);
+    world->createEntity(PLAYER);
+    world->createEntity(MONSTER);
     world->createEntity(ENTITY);
     world->createEntity(LIVINGENTITY);
     world->removeEntity(1000);

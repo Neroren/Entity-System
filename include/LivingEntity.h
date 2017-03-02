@@ -1,8 +1,8 @@
-#include "Entity.h"
-#include "Enumerators.h"
-
 #ifndef LIVINGENTITY_H
 #define LIVINGENTITY_H
+
+#include "Entity.h"
+#include "Enumerators.h"
 
 class LivingEntity : public Entity {
   public:
@@ -52,8 +52,18 @@ class LivingEntity : public Entity {
      */
     void damage(int amount);
 
+    /**
+     *  @brief Kills the entity.
+     *
+     *  Sets the health and armor to 0. Note this does not remove the entity, it is
+     *  up to the world to delete the entity object.
+     */
     void kill();
 
+    /**
+     *  @brief Checks to see whether the entity is dead.
+     *  @return bool True if entity is dead, false otherwise.
+     */
     bool isDead();
 
   protected:

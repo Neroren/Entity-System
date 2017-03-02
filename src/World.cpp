@@ -48,10 +48,23 @@ std::string World::getWorldName() {
 
 Entity* World::createEntity(EntityType entityType) {
     Entity* entity;
-    if (entityType == ENTITY)
+    switch (entityType) {
+    default:
+        printf("createEntity(): EntityType not valid, defaulting to Entity\n");
+    case ENTITY:
         entity = new Entity();
-    if (entityType == LIVINGENTITY)
+        break;
+
+    case LIVINGENTITY:
         entity = new LivingEntity();
+        break;
+
+    case MONSTER:
+        entity = new Monster();
+        break;
+    }
+
+    if(entityType)
 
     vec.push_back(entity);
 
@@ -91,7 +104,7 @@ void World::insertEntity(Entity* ent) {
 
 void World::removeEntity(unsigned int index) {
     if(index > vec.size() || index < 0) {
-        printf("removeEntity: Out of bounds. Ranges are from 0 to %d\n", vec.size());
+        printf("removeEntity(): Out of bounds. Ranges are from 0 to %d\n", vec.size());
         return;
     }
     DEBUG_PRINT("Removed entity in world named %s", vec[index]->getName().c_str());
@@ -109,13 +122,13 @@ void World::removeEntityByID(unsigned int id) {
             return;
         }
     }
-    printf("Entity by ID %d could not be found\n", id);
+    printf("removeEntityByID(): Entity by ID %d could not be found\n", id);
 }
 
 void World::printAllEntities() {
     printf("[W-ID]\tID\tNAME\t\tTYPE\n");
     for(size_t i = 0; i < vec.size(); i++) {
-        printf("[%d]\t%d\t%s\t%s\n", i, vec[i]->getID(), vec[i]->getName().c_str(), (vec[i]->getType() == ENTITY) ? "ENTITY" : "LIVINGENTITY");
+        printf("[%d]\t%d\t%s\t%s\n", i, vec[i]->getID(), vec[i]->getName().c_str(), Enumerators::toString(vec[i]->getType()).c_str());
     }
 }
 

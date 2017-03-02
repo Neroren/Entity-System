@@ -1,9 +1,9 @@
+#ifndef ENTITY_H
+#define ENTITY_H
+
 #include <string>
 #include "Vector3D.h"
 #include "Enumerators.h"
-
-#ifndef ENTITY_H
-#define ENTITY_H
 
 class Entity {
   public:
