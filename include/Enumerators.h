@@ -13,23 +13,17 @@ enum EntityType {
 class Enumerators {
   public:
     static std::string toString(EntityType type) {
-        std::string s;
         switch (type) {
         default:
         case ENTITY:
-            s = "ENTITY";
-            break;
+            return "ENTITY";
         case LIVINGENTITY:
-            s = "LIVINGENTITY";
-            break;
+            return "LIVINGENTITY";
         case PLAYER:
-            s = "PLAYER";
-            break;
+            return "PLAYER";
         case MONSTER:
-            s = "MONSTER";
-            break;
+            return "MONSTER";
         }
-        return s;
     }
 
 };
