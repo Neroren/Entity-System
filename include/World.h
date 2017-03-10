@@ -11,6 +11,12 @@ class World {
     World();
     virtual ~World();
 
+    void setWorldID(int id);
+    int getWorldID();
+
+    void setWorldName(std::string name);
+    std::string getWorldName();
+
     /**
      *  @brief Creates an Entity in the world of type entityType.
      *
@@ -21,12 +27,14 @@ class World {
 
     /**
      *  @brief Inserts an existing Entity into the world
-     *  @param ent Entity* to insert.
+     *  @param entity Entity pointer to insert.
      *
-     *  This does not move the entity, it only copies it. Make sure to dispose of the
-     *  original entity once it has been copied.
+     *  This adds the entity to the world, and does not copy it. Edits to the original
+     *  entity will change the entity in the world as they are the same object.
+     *  Currently, if the inserted entity has the same ID as an already existing entity,
+     *  it will be kept. That means there will be two or more entities with the same ID.
      */
-    void insertEntity(Entity* ent);
+    void insertEntity(Entity* entity);
 
     /**
      *  @brief Removes an Entity from the world using their slot ID in the world.
@@ -60,11 +68,6 @@ class World {
     void removeAllEntities();
 
     int getEntityCount();
-    void setWorldID(int id);
-    int getWorldID();
-
-    void setWorldName(std::string name);
-    std::string getWorldName();
 
   protected:
 

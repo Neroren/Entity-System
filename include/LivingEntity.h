@@ -67,7 +67,7 @@ class LivingEntity : public Entity {
     bool isDead();
 
   protected:
-    int health, maxHealth, armor;
+    short int health, maxHealth, armor;
     float speed;
 
   private:
