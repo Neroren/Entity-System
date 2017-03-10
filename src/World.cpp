@@ -64,42 +64,33 @@ Entity* World::createEntity(EntityType entityType) {
         break;
     }
 
-    if(entityType)
-
     vec.push_back(entity);
 
-    int entitySlot = vec.size() - 1;
     //vec[entitySlot]->setName("entity_" + IntToString(entityCounter));
-    vec[entitySlot]->setID(entityCounter);
-
-    Vector3D loc = vec[entitySlot]->getLocation();
-
-    DEBUG_PRINT("Created entity %s (%.2f, %.2f, %.2f), current amount: %d\n", vec[entitySlot]->getName().c_str(), loc.x, loc.y, loc.z, vec.size());
+    entity->setID(entityCounter);
     entityCounter++;
+
+    Vector3D loc = entity->getLocation();
+    DEBUG_PRINT("Created entity %s (%.2f, %.2f, %.2f), current amount: %d\n", entity->getName().c_str(), loc.x, loc.y, loc.z, vec.size());
 
     return entity;
 }
 
-void World::insertEntity(Entity* ent) {
+void World::insertEntity(Entity* entity) {
     bool newID = false;
-    Entity* entity = ent;
 
     if (!entity->getID()) {
         entity->setID(entityCounter);
+        entityCounter++; // TODO set accessors and mutators for entityCounter so that added entities ID's don't collide with existing ones
         newID = true;
     }
 
     vec.push_back(entity);
+    Vector3D loc = entity->getLocation();
 
-    int entitySlot = vec.size() - 1;
-    Vector3D loc = vec[entitySlot]->getLocation();
-
-    DEBUG_PRINT("Inserted entity %s (%.2f, %.2f, %.2f), current amount: %d\n", vec[entitySlot]->getName().c_str(), loc.x, loc.y, loc.z, vec.size());
+    DEBUG_PRINT("Inserted entity %s (%.2f, %.2f, %.2f), current amount: %d\n", entity->getName().c_str(), loc.x, loc.y, loc.z, vec.size());
     if(newID)
         DEBUG_PRINT("Inserted entity had no ID, so the ID %d has been assigned to it\n", entity->getID());
-    entityCounter++; // TODO set accessors and mutators for entityCounter so that added entities ID's don't collide with existing ones
-
-    return;
 }
 
 void World::removeEntity(unsigned int index) {
@@ -107,16 +98,19 @@ void World::removeEntity(unsigned int index) {
         printf("removeEntity(): Out of bounds. Ranges are from 0 to %d\n", vec.size());
         return;
     }
-    DEBUG_PRINT("Removed entity in world named %s", vec[index]->getName().c_str());
-    delete vec[index];
+    Entity* entity = vec[index];
+    DEBUG_PRINT("Removed entity in world named %s", entity->getName().c_str());
+    delete entity;
     vec.erase(vec.begin() + index);
     DEBUG_PRINT(", current amount: %d\n", vec.size());
 }
 
 void World::removeEntityByID(unsigned int id) {
-    for(size_t i = 0; i < vec.size(); i++) {
-        if(vec[i]->getID() == id) {
-            delete vec[i];
+    size_t size = vec.size();
+    for(size_t i = 0; i < size; ++i) {
+        Entity* entity = vec[i];
+        if(entity->getID() == id) {
+            delete entity;
             vec.erase(vec.begin() + i);
             DEBUG_PRINT("Removed entity in world with ID %d, current amount: %d\n", id, vec.size());
             return;
@@ -127,13 +121,16 @@ void World::removeEntityByID(unsigned int id) {
 
 void World::printAllEntities() {
     printf("[W-ID]\tID\tNAME\t\tTYPE\n");
-    for(size_t i = 0; i < vec.size(); i++) {
-        printf("[%d]\t%d\t%s\t%s\n", i, vec[i]->getID(), vec[i]->getName().c_str(), Enumerators::toString(vec[i]->getType()).c_str());
+    size_t size = vec.size();
+    for(size_t i = 0; i < size; ++i) {
+        Entity* entity = vec[i];
+        printf("[%d]\t%d\t%s\t%s\n", i, entity->getID(), entity->getName().c_str(), Enumerators::toString(entity->getType()).c_str());
     }
 }
 
 void World::removeAllEntities() {
-    for (size_t i = 0; i < vec.size(); i++) {
+    size_t size = vec.size();
+    for (size_t i = 0; i < size; ++i) {
         delete vec[i];
     }
     entityCounter = 0;
