@@ -44,6 +44,8 @@ class World {
      */
     void removeEntityByID(unsigned int id);
 
+    Entity* getEntityByID(unsigned int id);
+
     /**
      *  @brief Prints all entities in the world to console. Helpful for debugging.
      */
@@ -57,6 +59,7 @@ class World {
      */
     void removeAllEntities();
 
+    int getEntityCount();
     void setWorldID(int id);
     int getWorldID();
 

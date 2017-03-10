@@ -119,6 +119,19 @@ void World::removeEntityByID(unsigned int id) {
     printf("removeEntityByID(): Entity by ID %d could not be found\n", id);
 }
 
+Entity* World::getEntityByID(unsigned int id) {
+    size_t size = vec.size();
+    for(size_t i = 0; i < size; ++i) {
+        Entity* entity = vec[i];
+        if(entity->getID() == id) {
+            DEBUG_PRINT("Found entity in world with ID %d\n", id);
+            return entity;
+        }
+    }
+    printf("getEntityByID(): Entity by ID %d could not be found\n", id);
+    return 0;
+}
+
 void World::printAllEntities() {
     printf("[W-ID]\tID\tNAME\t\tTYPE\n");
     size_t size = vec.size();
@@ -135,4 +148,8 @@ void World::removeAllEntities() {
     }
     entityCounter = 0;
     vec.clear();
+}
+
+int World::getEntityCount() {
+    return vec.size();
 }
