@@ -104,6 +104,7 @@ void World::removeEntity(unsigned int index) {
     DEBUG_PRINT("Removed entity in world named %s", entity->getName().c_str());
     delete entity;
     vec.erase(vec.begin() + index);
+    std::vector<Entity*>(vec).swap(vec); // Shrink-to-fit
     DEBUG_PRINT(", current amount: %d\n", vec.size());
 }
 
