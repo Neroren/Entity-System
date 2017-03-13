@@ -1,15 +1,48 @@
 #include <iostream>
-#include <memory>
 #include <stdio.h>
 #include <stdlib.h>
 #include "LivingEntity.h"
 #include "World.h"
 
-//#define MEM_LEAK // Comment out to prevent memory leak testing
+#define MEM_LEAK // Comment out to prevent memory leak testing
+
+World* world;
+
+void memleak() {
+    int counter = 0;
+
+    printf("STARTING MEMORY HERE\n");
+
+    while(true) {
+        LivingEntity* worldent = (LivingEntity*) world->createEntity(LIVINGENTITY);
+        worldent->setName("newname");
+
+        counter++;
+        if(counter == 1000000) {
+            printf("FULL MEMORY HERE - Containing %d entities\n", world->getEntityCount());
+            system("pause");
+            world->removeEntity(0);
+            world->removeEntity(453245);
+            world->removeEntity(1000000 - 10);
+            printf("Removed 3 entities - Containing %d entities\n", world->getEntityCount());
+            system("pause");
+            world->removeAllEntities();
+            printf("EMPTY MEMORY HERE - Containing %d entities\n", world->getEntityCount());
+            system("pause");
+            counter = 0;
+        }
+    }
+}
 
 int main () {
-    World* world = new World();
+    world = new World();
     world->setWorldName("Earth");
+
+    #ifdef MEM_LEAK
+    memleak();
+    return 0;
+    #endif // MEM_LEAK
+
     LivingEntity* worldent = (LivingEntity*) world->createEntity(LIVINGENTITY);
     worldent->setName("this is a test");
     world->createEntity();
@@ -18,53 +51,31 @@ int main () {
     world->createEntity(ENTITY);
     world->createEntity(LIVINGENTITY);
     world->removeEntity(1000);
-    //world->removeEntityByID(30); // Will give a not found error
+    world->removeEntityByID(30); // Will give a not found error
     world->createEntity(LIVINGENTITY);
     world->createEntity(LIVINGENTITY);
-    #ifdef MEM_LEAK
-    int counter = 0;
-    delete world;
 
-    printf("STARTING MEMORY HERE\n");
-    system("pause");
-    world = new World();
-    while(true) {
-        LivingEntity* worldent = (LivingEntity*) world->createEntity(LIVINGENTITY);
-        //worldent->setName("newname");
+    LivingEntity* lara = new LivingEntity();
 
-        counter++;
-        if(counter == 1000000) {
-            printf("FULL MEMORY HERE\n");
-            system("pause");
-            //world->printAllEntities();
-            world->removeAllEntities();
-            delete world;
-            printf("EMPTY MEMORY HERE\n");
-            world = new World();
-            system("pause");
-            counter = 0;
-        }
-    }
-    #endif // MEM_LEAK
-
-    LivingEntity* test = new LivingEntity();
-
-    test->setName("Lara Croft");
-    //test->setID(0);
-    test->setLocation(Vector3D(1.25f, 95.54f, 5.35468f));
-    test->setHealth(250);
-    test->setMaxHealth(250);
-    test->setArmor(100);
-    test->setSpeed(5.0f);
-    world->insertEntity(test); // Insert Lara into world, now managed by world class
+    lara->setName("Lara Croft");
+    lara->setLocation(Vector3D(1.25f, 95.54f, 5.35468f));
+    lara->setHealth(250);
+    lara->setMaxHealth(250);
+    lara->setArmor(100);
+    lara->setSpeed(5.0f);
+    world->insertEntity(lara); // Insert Lara into world, now managed by world class
+    lara->setArmor(10);
     world->printAllEntities();
-    printf("Name: %s\nID: %d\nHealth: %d\nArmor: %d\nSpeed: %f\n", test->getName().c_str(), test->getID(), test->getHealth(), test->getArmor(), test->getSpeed());
+    //printf("Name: %s\nID: %d\nHealth: %d\nArmor: %d\nSpeed: %f\n", test->getName().c_str(), test->getID(), test->getHealth(), test->getArmor(), test->getSpeed());
+    LivingEntity* test_world = (LivingEntity*) world->getEntityByID(8);
+    printf("Name: %s\nID: %d\nHealth: %d\nArmor: %d\nSpeed: %f\n", test_world->getName().c_str(), test_world->getID(), test_world->getHealth(), test_world->getArmor(), test_world->getSpeed());
 
     LivingEntity* test2 = new LivingEntity(1, "Lara Croft 2", 500, 200);
 
     printf("\nName: %s\nID: %d\nHealth: %d\nArmor: %d\nSpeed: %f\n", test2->getName().c_str(), test2->getID(), test2->getHealth(), test2->getArmor(), test2->getSpeed());
     test2->damage(300);
-    printf("\nTook 300 damage! New stats:\nHealth: %d\nArmor: %d", test2->getHealth(), test2->getArmor());
+    printf("\nTook 300 damage! New stats:\nHealth: %d\nArmor: %d\n", test2->getHealth(), test2->getArmor());
+
     delete world;
     return 0;
 }
