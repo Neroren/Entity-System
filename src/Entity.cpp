@@ -5,6 +5,7 @@ Entity::Entity() {
     setID(0);
     setName("Entity");
     setLocation(Vector3D(0.0f, 0.0f, 0.0f));
+    setWorldID(0);
 }
 
 Entity::~Entity() {
@@ -40,6 +41,14 @@ void Entity::setLocation(Vector3D vec3d) {
 
 Vector3D Entity::getLocation() {
     return this->location;
+}
+
+void Entity::setWorldID(int id) {
+    this->worldID = id;
+}
+
+int Entity::getWorldID() {
+    return this->worldID;
 }
 
 void Entity::destroy() {

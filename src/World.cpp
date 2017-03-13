@@ -68,6 +68,7 @@ Entity* World::createEntity(EntityType entityType) {
 
     //vec[entitySlot]->setName("entity_" + IntToString(entityCounter));
     entity->setID(entityCounter);
+    entity->setWorldID(getWorldID());
     entityCounter++;
 
     Vector3D loc = entity->getLocation();
@@ -86,6 +87,7 @@ void World::insertEntity(Entity* entity) {
     }
 
     vec.push_back(entity);
+    entity->setWorldID(getWorldID());
     Vector3D loc = entity->getLocation();
 
     DEBUG_PRINT("Inserted entity %s (%.2f, %.2f, %.2f), current amount: %d\n", entity->getName().c_str(), loc.x, loc.y, loc.z, vec.size());

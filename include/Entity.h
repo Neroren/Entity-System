@@ -22,6 +22,9 @@ class Entity {
     void setLocation(Vector3D vec3d);
     Vector3D getLocation();
 
+    void setWorldID(int id);
+    int getWorldID();
+
     void destroy();
 
   protected:
@@ -29,6 +32,7 @@ class Entity {
     unsigned int id;
     std::string name;
     Vector3D location;
+    int worldID;
 
   private:
 };
