@@ -112,6 +112,7 @@ void World::removeEntityByID(unsigned int id) {
         if(entity->getID() == id) {
             delete entity;
             vec.erase(vec.begin() + i);
+            std::vector<Entity*>(vec).swap(vec); // Shrink-to-fit
             DEBUG_PRINT("Removed entity in world with ID %d, current amount: %d\n", id, vec.size());
             return;
         }
@@ -148,6 +149,7 @@ void World::removeAllEntities() {
     }
     entityCounter = 0;
     vec.clear();
+    std::vector<Entity*>(vec).swap(vec); // Shrink-to-fit
 }
 
 int World::getEntityCount() {
