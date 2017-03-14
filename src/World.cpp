@@ -64,7 +64,7 @@ Entity* World::createEntity(EntityType entityType) {
         break;
     }
 
-    vec.push_back(entity);
+    ents.push_back(entity);
 
     //vec[entitySlot]->setName("entity_" + IntToString(entityCounter));
     entity->setID(entityCounter);
@@ -72,7 +72,7 @@ Entity* World::createEntity(EntityType entityType) {
     entityCounter++;
 
     Vector3D loc = entity->getLocation();
-    DEBUG_PRINT("Created entity %s (%.2f, %.2f, %.2f), current amount: %d\n", entity->getName().c_str(), loc.x, loc.y, loc.z, vec.size());
+    DEBUG_PRINT("Created entity %s (%.2f, %.2f, %.2f), current amount: %d\n", entity->getName().c_str(), loc.x, loc.y, loc.z, ents.size());
 
     return entity;
 }
@@ -86,37 +86,35 @@ void World::insertEntity(Entity* entity) {
         newID = true;
     }
 
-    vec.push_back(entity);
+    ents.push_back(entity);
     entity->setWorldID(getWorldID());
     Vector3D loc = entity->getLocation();
 
-    DEBUG_PRINT("Inserted entity %s (%.2f, %.2f, %.2f), current amount: %d\n", entity->getName().c_str(), loc.x, loc.y, loc.z, vec.size());
+    DEBUG_PRINT("Inserted entity %s (%.2f, %.2f, %.2f), current amount: %d\n", entity->getName().c_str(), loc.x, loc.y, loc.z, ents.size());
     if(newID)
         DEBUG_PRINT("Inserted entity had no ID, so the ID %d has been assigned to it\n", entity->getID());
 }
 
 void World::removeEntity(unsigned int index) {
-    if(index > vec.size() || index < 0) {
-        printf("removeEntity(): Out of bounds. Ranges are from 0 to %d\n", vec.size());
+    if(index > ents.size() || index < 0) {
+        printf("removeEntity(): Out of bounds. Ranges are from 0 to %d\n", ents.size());
         return;
     }
-    Entity* entity = vec[index];
+    Entity* entity = ents[index];
     DEBUG_PRINT("Removed entity in world named %s", entity->getName().c_str());
     delete entity;
-    vec.erase(vec.begin() + index);
-    std::vector<Entity*>(vec).swap(vec); // Shrink-to-fit
-    DEBUG_PRINT(", current amount: %d\n", vec.size());
+    ents.erase(ents.begin() + index);
+    DEBUG_PRINT(", current amount: %d\n", ents.size());
 }
 
 void World::removeEntityByID(unsigned int id) {
-    size_t size = vec.size();
+    size_t size = ents.size();
     for(size_t i = 0; i < size; ++i) {
-        Entity* entity = vec[i];
+        Entity* entity = ents[i];
         if(entity->getID() == id) {
             delete entity;
-            vec.erase(vec.begin() + i);
-            std::vector<Entity*>(vec).swap(vec); // Shrink-to-fit
-            DEBUG_PRINT("Removed entity in world with ID %d, current amount: %d\n", id, vec.size());
+            ents.erase(ents.begin() + i);
+            DEBUG_PRINT("Removed entity in world with ID %d, current amount: %d\n", id, ents.size());
             return;
         }
     }
@@ -124,9 +122,9 @@ void World::removeEntityByID(unsigned int id) {
 }
 
 Entity* World::getEntityByID(unsigned int id) {
-    size_t size = vec.size();
+    size_t size = ents.size();
     for(size_t i = 0; i < size; ++i) {
-        Entity* entity = vec[i];
+        Entity* entity = ents[i];
         if(entity->getID() == id) {
             DEBUG_PRINT("Found entity in world with ID %d\n", id);
             return entity;
@@ -138,23 +136,22 @@ Entity* World::getEntityByID(unsigned int id) {
 
 void World::printAllEntities() {
     printf("[W-ID]\tID\tNAME\t\tTYPE\n");
-    size_t size = vec.size();
+    size_t size = ents.size();
     for(size_t i = 0; i < size; ++i) {
-        Entity* entity = vec[i];
+        Entity* entity = ents[i];
         printf("[%d]\t%d\t%s\t%s\n", i, entity->getID(), entity->getName().c_str(), Enumerators::toString(entity->getType()).c_str());
     }
 }
 
 void World::removeAllEntities() {
-    size_t size = vec.size();
+    size_t size = ents.size();
     for (size_t i = 0; i < size; ++i) {
-        delete vec[i];
+        delete ents[i];
     }
     entityCounter = 0;
-    vec.clear();
-    std::vector<Entity*>(vec).swap(vec); // Shrink-to-fit
+    ents.clear();
 }
 
 int World::getEntityCount() {
-    return vec.size();
+    return ents.size();
 }

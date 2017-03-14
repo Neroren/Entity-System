@@ -4,7 +4,7 @@
 #include "LivingEntity.h"
 #include "Monster.h"
 #include "Enumerators.h"
-#include <vector>
+#include <deque>
 
 class World {
   public:
@@ -74,7 +74,7 @@ class World {
   private:
     int worldID, entityCounter;
     std::string worldName;
-    std::vector<Entity*> vec;
+    std::deque<Entity*> ents;
 };
 
 #endif // WORLD_H

@@ -10,6 +10,8 @@ World* world;
 
 void memleak() {
     int counter = 0;
+    const int entsToCreate = 1000000;
+    const int entsToRemove = 500000;
 
     printf("STARTING MEMORY HERE\n");
 
@@ -18,13 +20,12 @@ void memleak() {
         worldent->setName("newname");
 
         counter++;
-        if(counter == 1000000) {
+        if(counter == entsToCreate) {
             printf("FULL MEMORY HERE - Containing %d entities\n", world->getEntityCount());
             system("pause");
-            world->removeEntity(0);
-            world->removeEntity(453245);
-            world->removeEntity(1000000 - 10);
-            printf("Removed 3 entities - Containing %d entities\n", world->getEntityCount());
+            for(int i = 0; i < entsToRemove; ++i)
+                world->removeEntityByID(i);
+            printf("Removed %d entities - Containing %d entities\n", entsToRemove, world->getEntityCount());
             system("pause");
             world->removeAllEntities();
             printf("EMPTY MEMORY HERE - Containing %d entities\n", world->getEntityCount());
