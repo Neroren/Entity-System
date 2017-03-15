@@ -1,11 +1,4 @@
 #include "World.h"
-#include <stdio.h>
-#include <string>
-#include <cstdlib>
-#include <iostream>
-#include <sstream>
-#include <string>
-#include "Vector3D.h"
 
 //#define DEBUG // Comment out to debug or switch project build target to Debug, also makes program faster (no need to print text)
 #ifdef DEBUG

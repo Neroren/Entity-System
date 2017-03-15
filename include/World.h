@@ -1,10 +1,18 @@
 #ifndef WORLD_H
 #define WORLD_H
 
+#include <cstdlib>
+#include <deque>
+#include <iostream>
+#include <sstream>
+#include <stdio.h>
+#include <string>
+#include <boost/thread.hpp>
+
+#include "Enumerators.h"
 #include "LivingEntity.h"
 #include "Monster.h"
-#include "Enumerators.h"
-#include <deque>
+#include "Vector3D.h"
 
 class World {
   public:

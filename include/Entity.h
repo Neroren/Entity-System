@@ -2,8 +2,9 @@
 #define ENTITY_H
 
 #include <string>
-#include "Vector3D.h"
+
 #include "Enumerators.h"
+#include "Vector3D.h"
 
 class Entity {
   public:
