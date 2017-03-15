@@ -83,6 +83,9 @@ class World {
     int worldID, entityCounter;
     std::string worldName;
     std::deque<Entity*> ents;
+
+    boost::mutex mutex;
+    typedef boost::lock_guard<boost::mutex> scoped_lock;
 };
 
 #endif // WORLD_H

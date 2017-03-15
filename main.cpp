@@ -9,11 +9,12 @@
 #define MEM_LEAK // Comment out to prevent memory leak testing
 
 World* world;
+int threadCount = 6;
 
 void memleak() {
     int counter = 0;
-    const int entsToCreate = 1000000;
-    const int entsToRemove = 500000;
+    const int entsToCreate = 5000000 / threadCount;
+    const int entsToRemove = 500000 / threadCount;
 
     printf("STARTING MEMORY HERE\n");
 
@@ -24,10 +25,14 @@ void memleak() {
         counter++;
         if(counter == entsToCreate) {
             printf("FULL MEMORY HERE - Containing %d entities\n", world->getEntityCount());
-            system("pause");
-            for(int i = 0; i < entsToRemove; ++i)
+            //system("pause");
+            for(int i = 0; i < entsToRemove; ++i) {
                 world->removeEntityByID(i);
+                //LivingEntity* test = new LivingEntity();
+                //world->insertEntity(test);
+            }
             printf("Removed %d entities - Containing %d entities\n", entsToRemove, world->getEntityCount());
+            return;
             system("pause");
             world->removeAllEntities();
             printf("EMPTY MEMORY HERE - Containing %d entities\n", world->getEntityCount());
@@ -42,7 +47,11 @@ int main () {
     world->setWorldName("Earth");
 
     #ifdef MEM_LEAK
-    memleak();
+    boost::thread_group threads;
+    for(int i = 0; i < threadCount; ++i) {
+        threads.create_thread(memleak);
+    }
+    threads.join_all();
     return 0;
     #endif // MEM_LEAK
 
@@ -79,6 +88,7 @@ int main () {
     test2->damage(300);
     printf("\nTook 300 damage! New stats:\nHealth: %d\nArmor: %d\n", test2->getHealth(), test2->getArmor());
 
+    threads.join_all();
     delete world;
     return 0;
 }

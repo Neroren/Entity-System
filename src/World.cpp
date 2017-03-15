@@ -57,12 +57,15 @@ Entity* World::createEntity(EntityType entityType) {
         break;
     }
 
-    ents.push_back(entity);
-
     //vec[entitySlot]->setName("entity_" + IntToString(entityCounter));
     entity->setID(entityCounter);
     entity->setWorldID(getWorldID());
-    entityCounter++;
+
+    {
+        scoped_lock lock(mutex);
+        ents.push_back(entity);
+        entityCounter++;
+    }
 
     Vector3D loc = entity->getLocation();
     DEBUG_PRINT("Created entity %s (%.2f, %.2f, %.2f), current amount: %d\n", entity->getName().c_str(), loc.x, loc.y, loc.z, ents.size());
@@ -73,13 +76,17 @@ Entity* World::createEntity(EntityType entityType) {
 void World::insertEntity(Entity* entity) {
     bool newID = false;
 
-    if (!entity->getID()) {
-        entity->setID(entityCounter);
-        entityCounter++; // TODO set accessors and mutators for entityCounter so that added entities ID's don't collide with existing ones
-        newID = true;
-    }
+    {
+        scoped_lock lock(mutex);
 
-    ents.push_back(entity);
+        if (!entity->getID()) {
+            entity->setID(entityCounter);
+            entityCounter++; // TODO set accessors and mutators for entityCounter so that added entities ID's don't collide with existing ones
+            newID = true;
+        }
+
+        ents.push_back(entity);
+    }
     entity->setWorldID(getWorldID());
     Vector3D loc = entity->getLocation();
 
@@ -95,16 +102,19 @@ void World::removeEntity(unsigned int index) {
     }
     Entity* entity = ents[index];
     DEBUG_PRINT("Removed entity in world named %s", entity->getName().c_str());
-    delete entity;
-    ents.erase(ents.begin() + index);
+    {
+        scoped_lock lock(mutex);
+        delete entity;
+        ents.erase(ents.begin() + index);
+    }
     DEBUG_PRINT(", current amount: %d\n", ents.size());
 }
 
 void World::removeEntityByID(unsigned int id) {
-    size_t size = ents.size();
-    for(size_t i = 0; i < size; ++i) {
+    for(size_t i = 0; i < ents.size(); ++i) {
         Entity* entity = ents[i];
         if(entity->getID() == id) {
+            scoped_lock lock(mutex);
             delete entity;
             ents.erase(ents.begin() + i);
             DEBUG_PRINT("Removed entity in world with ID %d, current amount: %d\n", id, ents.size());
@@ -137,8 +147,8 @@ void World::printAllEntities() {
 }
 
 void World::removeAllEntities() {
-    size_t size = ents.size();
-    for (size_t i = 0; i < size; ++i) {
+    scoped_lock lock(mutex);
+    for (size_t i = 0; i < ents.size(); ++i) {
         delete ents[i];
     }
     entityCounter = 0;
