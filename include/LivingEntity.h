@@ -3,6 +3,7 @@
 
 #include "Entity.h"
 #include "Enumerators.h"
+#include "Inventory.h"
 
 class LivingEntity : public Entity {
   public:
@@ -41,6 +42,12 @@ class LivingEntity : public Entity {
     void setArmor(int armor);
     int getArmor();
 
+    void setupInventory();
+    void removeInventory();
+
+    void setInventory(Inventory* inv);
+    Inventory* getInventory();
+
     void setSpeed(float speed);
     float getSpeed();
 
@@ -69,6 +76,7 @@ class LivingEntity : public Entity {
   protected:
     short int health, maxHealth, armor;
     float speed;
+    Inventory* inv;
 
   private:
     /**

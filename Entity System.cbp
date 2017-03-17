@@ -45,12 +45,18 @@
 		</Compiler>
 		<Unit filename="include/Entity.h" />
 		<Unit filename="include/Enumerators.h" />
+		<Unit filename="include/Inventory.h" />
+		<Unit filename="include/Item.h" />
+		<Unit filename="include/ItemSword.h" />
 		<Unit filename="include/LivingEntity.h" />
 		<Unit filename="include/Monster.h" />
 		<Unit filename="include/Vector3D.h" />
 		<Unit filename="include/World.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Entity.cpp" />
+		<Unit filename="src/Inventory.cpp" />
+		<Unit filename="src/Item.cpp" />
+		<Unit filename="src/ItemSword.cpp" />
 		<Unit filename="src/LivingEntity.cpp" />
 		<Unit filename="src/Monster.cpp" />
 		<Unit filename="src/Vector3D.cpp" />

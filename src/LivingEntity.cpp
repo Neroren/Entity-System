@@ -10,6 +10,7 @@ LivingEntity::LivingEntity() {
     setMaxHealth(100);
     setArmor(0);
     setSpeed(1.0f);
+    inv = 0;
 }
 
 LivingEntity::LivingEntity(int id, std::string name, int health, int armor, float speed) {
@@ -19,9 +20,11 @@ LivingEntity::LivingEntity(int id, std::string name, int health, int armor, floa
     setMaxHealth(health);
     setArmor(armor);
     setSpeed(speed);
+    inv = 0;
 }
 
 LivingEntity::~LivingEntity() {
+    removeInventory();
 }
 
 template <typename T>
@@ -51,6 +54,23 @@ void LivingEntity::setArmor(int armor) {
 
 int LivingEntity::getArmor() {
     return this->armor;
+}
+
+void LivingEntity::setupInventory() {
+    this->inv = new Inventory();
+}
+
+void LivingEntity::removeInventory() {
+    if(inv != 0)
+        delete inv;
+}
+
+void LivingEntity::setInventory(Inventory* inv) {
+    this->inv = inv;
+}
+
+Inventory* LivingEntity::getInventory() {
+    return this->inv;
 }
 
 void LivingEntity::setSpeed(float speed) {
