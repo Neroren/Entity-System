@@ -61,8 +61,8 @@ void LivingEntity::setupInventory() {
 }
 
 void LivingEntity::removeInventory() {
-    if(inv != 0)
-        delete inv;
+    delete inv;
+    inv = 0;
 }
 
 void LivingEntity::setInventory(Inventory* inv) {

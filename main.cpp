@@ -1,7 +1,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
-#include <boost/thread/thread.hpp>
+#include <boost/thread.hpp>
 
 #include "LivingEntity.h"
 #include "World.h"
