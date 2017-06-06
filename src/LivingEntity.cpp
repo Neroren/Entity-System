@@ -10,7 +10,7 @@ LivingEntity::LivingEntity() {
     setMaxHealth(100);
     setArmor(0);
     setSpeed(1.0f);
-    inv = 0;
+    this->inv = 0;
 }
 
 LivingEntity::LivingEntity(int id, std::string name, int health, int armor, float speed) {
@@ -20,7 +20,7 @@ LivingEntity::LivingEntity(int id, std::string name, int health, int armor, floa
     setMaxHealth(health);
     setArmor(armor);
     setSpeed(speed);
-    inv = 0;
+    this->inv = 0;
 }
 
 LivingEntity::~LivingEntity() {
@@ -57,15 +57,16 @@ int LivingEntity::getArmor() {
 }
 
 void LivingEntity::setupInventory() {
-    this->inv = new Inventory();
+    setInventory(new Inventory());
 }
 
 void LivingEntity::removeInventory() {
-    delete inv;
-    inv = 0;
+    delete this->inv;
+    this->inv = 0;
 }
 
 void LivingEntity::setInventory(Inventory* inv) {
+    removeInventory();
     this->inv = inv;
 }
 
