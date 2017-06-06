@@ -104,6 +104,6 @@ void LivingEntity::kill() {
     // UPDATE: World now handles deletion
 }
 
-bool LivingEntity::isDead() {
-    return (getHealth() == 0);
+bool LivingEntity::isAlive() {
+    return (getHealth() > 0);
 }

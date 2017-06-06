@@ -13,6 +13,7 @@ class LivingEntity : public Entity {
 
     /**
      *  @brief Sets the entity's health.
+     *
      *  @param health Health amount.
      *
      *  Any value between 0 to MAX_HEALTH, values outside this range are
@@ -23,6 +24,7 @@ class LivingEntity : public Entity {
 
     /**
      *  @brief Sets maximum health.
+     *
      *  @param health Max health amount.
      *
      *  Not an absolute max health limit, only what the health should
@@ -34,6 +36,7 @@ class LivingEntity : public Entity {
 
     /**
      *  @brief Sets the entity's armor.
+     *
      *  @param armor Armor amount.
      *
      *  Any value between 0 to MAX_ARMOR, values outside this range are
@@ -53,6 +56,7 @@ class LivingEntity : public Entity {
 
     /**
      *  @brief Damages the entity by specified amount.
+     *
      *  @param amount Damage amount.
      *
      *  First damages armor, then health.
@@ -68,10 +72,11 @@ class LivingEntity : public Entity {
     void kill();
 
     /**
-     *  @brief Checks to see whether the entity is dead.
-     *  @return bool True if entity is dead, false otherwise.
+     *  @brief Checks to see whether the entity is alive.
+     *
+     *  @return bool True if entity is alive, false otherwise.
      */
-    bool isDead();
+    bool isAlive();
 
   protected:
     short int health, maxHealth, armor;
@@ -81,6 +86,7 @@ class LivingEntity : public Entity {
   private:
     /**
      *  @brief Clamps value between lower and upper bounds.
+     *
      *  @param value Number to clamp.
      *  @param lower Lower bounds.
      *  @param upper Upper bounds.

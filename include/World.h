@@ -18,6 +18,11 @@ class World {
     void setWorldID(int id);
     int getWorldID();
 
+    /**
+     *  @brief Sets the world name. By default "world".
+     *
+     *  @param name New name of world.
+     */
     void setWorldName(std::string name);
     std::string getWorldName();
 
@@ -25,12 +30,13 @@ class World {
      *  @brief Creates an Entity in the world of type entityType.
      *
      *  @param entityType EntityType to create. Defaults to ENTITY if not specified.
-     *  @return Entity* The created entity, ready to be manipulated.
+     *  @return Entity* Pointer to the created entity, ready to be manipulated.
      */
     Entity* createEntity(EntityType entityType = ENTITY);
 
     /**
      *  @brief Inserts an existing Entity into the world
+     *
      *  @param entity Entity pointer to insert.
      *
      *  This adds the entity to the world, and does not copy it. Edits to the original
@@ -42,6 +48,7 @@ class World {
 
     /**
      *  @brief Removes an Entity from the world using their slot ID in the world.
+     *
      *  @param index Slot ID.
      */
     void removeEntity(unsigned int index);
@@ -74,7 +81,21 @@ class World {
      */
     void removeAllEntities();
 
+    /**
+     *  @brief Withdraws an entity by their pointer.
+     *
+     *  @param entity Pointer of entity to remove.
+     *
+     *  This essentially removes the entity from the world container without deleting
+     *  the entity object.
+     */
     void withdrawEntity(Entity* entity);
+
+    /**
+     *  @brief Gets the total amount of entities in this world.
+     *
+     *  @return unsigned int Total count of entities in the world.
+     */
     unsigned int getEntityCount();
 
   protected:
