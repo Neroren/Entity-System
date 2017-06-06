@@ -18,12 +18,13 @@ void memleak() {
 
     printf("STARTING MEMORY HERE\n");
 
-    while(true) {
+    while (true) {
         LivingEntity* worldent = (LivingEntity*) world->createEntity(LIVINGENTITY);
         worldent->setName("newname");
 
         counter++;
-        if(counter == entsToCreate) {
+
+        if (counter == entsToCreate) {
             printf("FULL MEMORY HERE - Containing %d entities\n", world->getEntityCount());
             //system("pause");
             for(int i = 0; i < entsToRemove; ++i) {
@@ -42,19 +43,20 @@ void memleak() {
     }
 }
 
-int main () {
+int main() {
     world = new World();
     world->setWorldName("Earth");
 
-    #ifdef MEM_LEAK
+#ifdef MEM_LEAK
     boost::thread_group threads;
-    for(int i = 0; i < threadCount; ++i) {
+
+    for (int i = 0; i < threadCount; ++i) {
         threads.create_thread(memleak);
     }
+
     threads.join_all();
     return 0;
-    #endif // MEM_LEAK
-
+#endif // MEM_LEAK
     LivingEntity* worldent = (LivingEntity*) world->createEntity(LIVINGENTITY);
     worldent->setName("this is a test");
     world->createEntity();

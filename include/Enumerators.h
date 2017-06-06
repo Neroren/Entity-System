@@ -14,15 +14,18 @@ class Enumerators {
   public:
     static std::string toString(EntityType type) {
         switch (type) {
-        default:
-        case ENTITY:
-            return "ENTITY";
-        case LIVINGENTITY:
-            return "LIVINGENTITY";
-        case PLAYER:
-            return "PLAYER";
-        case MONSTER:
-            return "MONSTER";
+            default:
+            case ENTITY:
+                return "ENTITY";
+
+            case LIVINGENTITY:
+                return "LIVINGENTITY";
+
+            case PLAYER:
+                return "PLAYER";
+
+            case MONSTER:
+                return "MONSTER";
         }
     }
 

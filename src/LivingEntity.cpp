@@ -85,7 +85,6 @@ float LivingEntity::getSpeed() {
 void LivingEntity::damage(int amount) {
     // Armor will take the hit first, then health
     int armorDamage, healthDamage;
-
     armorDamage = getArmor() - amount;
     setArmor(armorDamage);
 

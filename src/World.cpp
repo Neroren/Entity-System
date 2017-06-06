@@ -2,9 +2,9 @@
 
 //#define DEBUG // Comment out to debug or switch project build target to Debug, also makes program faster (no need to print text)
 #ifdef DEBUG
-#define DEBUG_PRINT printf
+    #define DEBUG_PRINT printf
 #else
-#define DEBUG_PRINT(...)
+    #define DEBUG_PRINT(...)
 #endif
 
 World::World() {
@@ -41,20 +41,22 @@ std::string World::getWorldName() {
 
 Entity* World::createEntity(EntityType entityType) {
     Entity* entity;
+
     switch (entityType) {
-    default:
-        printf("createEntity(): EntityType not valid, defaulting to Entity\n");
-    case ENTITY:
-        entity = new Entity();
-        break;
+        default:
+            printf("createEntity(): EntityType not valid, defaulting to Entity\n");
 
-    case LIVINGENTITY:
-        entity = new LivingEntity();
-        break;
+        case ENTITY:
+            entity = new Entity();
+            break;
 
-    case MONSTER:
-        entity = new Monster();
-        break;
+        case LIVINGENTITY:
+            entity = new LivingEntity();
+            break;
+
+        case MONSTER:
+            entity = new Monster();
+            break;
     }
 
     //vec[entitySlot]->setName("entity_" + IntToString(entityCounter));
@@ -67,7 +69,6 @@ Entity* World::createEntity(EntityType entityType) {
         entityCounter++;
         DEBUG_PRINT("Created entity %s (%.2f, %.2f, %.2f), current amount: %d\n", entity->getName().c_str(), loc.x, loc.y, loc.z, getEntityCount());
     }
-
     return entity;
 }
 
@@ -75,7 +76,6 @@ void World::insertEntity(Entity* entity) {
     bool newID = false;
     entity->setWorld(this);
     Vector3D loc = entity->getLocation();
-
     {
         scoped_lock lock(mutex);
 
@@ -89,7 +89,7 @@ void World::insertEntity(Entity* entity) {
     }
     DEBUG_PRINT("Inserted entity %s (%.2f, %.2f, %.2f), current amount: %d\n", entity->getName().c_str(), loc.x, loc.y, loc.z, getEntityCount());
 
-    if(newID)
+    if (newID)
         DEBUG_PRINT("Inserted entity had no ID, so the ID %d has been assigned to it\n", entity->getID());
 }
 
@@ -105,6 +105,7 @@ void World::removeEntity(unsigned int index) {
         DEBUG_PRINT("removeEntity(): Out of bounds. Ranges are from 0 to %d, given %d\n", getEntityCount(), index);
         return;
     }
+
     Entity* entity = ents[index];
     DEBUG_PRINT("Removed entity in world named %s", entity->getName().c_str());
     delete entity;
@@ -129,7 +130,8 @@ void World::removeEntity(Entity* entity) {
 void World::removeEntityByID(unsigned int id) {
     for (size_t i = 0; i < getEntityCount(); ++i) {
         Entity* entity = ents[i];
-        if(entity->getID() == id) {
+
+        if (entity->getID() == id) {
             scoped_lock lock(mutex);
             delete entity;
             ents.erase(ents.begin() + i);
@@ -137,6 +139,7 @@ void World::removeEntityByID(unsigned int id) {
             return;
         }
     }
+
     printf("removeEntityByID(): Entity by ID %d could not be found\n", id);
 }
 
@@ -151,6 +154,7 @@ Entity* World::getEntityByID(unsigned int id) {
             return entity;
         }
     }
+
     printf("getEntityByID(): Entity by ID %d could not be found\n", id);
     return 0;
 }
