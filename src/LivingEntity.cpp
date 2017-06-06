@@ -97,7 +97,7 @@ void LivingEntity::damage(int amount) {
 void LivingEntity::kill() {
     setHealth(0);
     setArmor(0);
-    destroy();
+    remove();
     // TODO: Delete the object without using "delete this" as there is no
     // guarantee that it was allocated with new
     // UPDATE: World now handles deletion

@@ -6,6 +6,8 @@
 #include "Enumerators.h"
 #include "Vector3D.h"
 
+class World; // Forward declaration for setWorld and getWorld;
+
 class Entity {
   public:
     Entity();
@@ -23,17 +25,18 @@ class Entity {
     void setLocation(Vector3D vec3d);
     Vector3D getLocation();
 
-    void setWorldID(int id);
-    int getWorldID();
+    void setWorld(World* world);
+    void moveToWorld(World* world);
+    World* getWorld();
 
-    void destroy();
+    void remove();
 
   protected:
     EntityType type;
     unsigned int id;
     std::string name;
     Vector3D location;
-    int worldID;
+    World* world;
 
   private:
 };

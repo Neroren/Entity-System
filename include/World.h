@@ -46,8 +46,11 @@ class World {
      */
     void removeEntity(unsigned int index);
 
+    void removeEntity(Entity* entity);
+
     /**
      *  @brief Removes an Entity from the world using their Entity ID in the world.
+     *
      *  @param id Entity ID to search and remove.
      *
      *  Refrain from using this as it is more resource intensive than removing by index.
@@ -71,7 +74,8 @@ class World {
      */
     void removeAllEntities();
 
-    int getEntityCount();
+    void withdrawEntity(Entity* entity);
+    unsigned int getEntityCount();
 
   protected:
 

@@ -59,8 +59,7 @@ Entity* World::createEntity(EntityType entityType) {
 
     //vec[entitySlot]->setName("entity_" + IntToString(entityCounter));
     entity->setID(entityCounter);
-    entity->setWorldID(getWorldID());
-
+    entity->setWorld(this);
     {
         scoped_lock lock(mutex);
         ents.push_back(entity);
@@ -75,6 +74,7 @@ Entity* World::createEntity(EntityType entityType) {
 
 void World::insertEntity(Entity* entity) {
     bool newID = false;
+    entity->setWorld(this);
 
     {
         scoped_lock lock(mutex);
@@ -106,8 +106,18 @@ void World::removeEntity(unsigned int index) {
         scoped_lock lock(mutex);
         delete entity;
         ents.erase(ents.begin() + index);
+void World::removeEntity(Entity* entity) {
+    for (size_t i = 0; i < getEntityCount(); ++i) {
+        if (entity == ents[i]) {
+            scoped_lock lock(mutex);
+            ents.erase(ents.begin() + i);
+            delete entity;
+            DEBUG_PRINT("Removed entity from world \"%s\", ID: %d\n", getWorldName().c_str(), getWorldID());
+            return;
+        }
     }
-    DEBUG_PRINT(", current amount: %d\n", ents.size());
+
+    printf("removeEntity(): Entity could not be found in world\n");
 }
 
 void World::removeEntityByID(unsigned int id) {
@@ -125,11 +135,13 @@ void World::removeEntityByID(unsigned int id) {
 }
 
 Entity* World::getEntityByID(unsigned int id) {
-    size_t size = ents.size();
-    for(size_t i = 0; i < size; ++i) {
+    size_t size = getEntityCount();
+
+    for (size_t i = 0; i < size; ++i) {
         Entity* entity = ents[i];
-        if(entity->getID() == id) {
-            DEBUG_PRINT("Found entity in world with ID %d\n", id);
+
+        if (entity->getID() == id) {
+            DEBUG_PRINT("getEntityByID(): Found entity in world with ID %d\n", id);
             return entity;
         }
     }
@@ -138,23 +150,43 @@ Entity* World::getEntityByID(unsigned int id) {
 }
 
 void World::printAllEntities() {
-    printf("[W-ID]\tID\tNAME\t\tTYPE\n");
-    size_t size = ents.size();
-    for(size_t i = 0; i < size; ++i) {
+    printf("\n--- All Entities in world \"%s\" (ID: %d), %d total entities ---\n", getWorldName().c_str(), getWorldID(), getEntityCount());
+    printf("[INDEX]\tID\tNAME\t\tTYPE\n");
+    size_t size = getEntityCount();
+
+    for (size_t i = 0; i < size; ++i) {
         Entity* entity = ents[i];
         printf("[%d]\t%d\t%s\t%s\n", i, entity->getID(), entity->getName().c_str(), Enumerators::toString(entity->getType()).c_str());
     }
+
+    printf("---------------------------------------------------------------\n\n");
 }
 
 void World::removeAllEntities() {
     scoped_lock lock(mutex);
-    for (size_t i = 0; i < ents.size(); ++i) {
+
+    for (size_t i = 0; i < getEntityCount(); ++i) {
         delete ents[i];
     }
+
     entityCounter = 0;
     ents.clear();
 }
 
-int World::getEntityCount() {
+// Only removes the entity from world without deleting
+void World::withdrawEntity(Entity* entity) {
+    for (size_t i = 0; i < getEntityCount(); ++i) {
+        if (entity == ents[i]) {
+            scoped_lock lock(mutex);
+            ents.erase(ents.begin() + i);
+            DEBUG_PRINT("Withdrew entity \"%s\" from world \"%s\", ID: %d\n", entity->getName().c_str(), getWorldName().c_str(), getWorldID());
+            return;
+        }
+    }
+
+    printf("withdrawEntity(): Entity could not be found in world\n");
+}
+
+unsigned int World::getEntityCount() {
     return ents.size();
 }
